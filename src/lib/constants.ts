@@ -16,16 +16,17 @@ export const STATUSES = ['Ide', 'Sedang Dikerjakan', 'Tinjauan', 'Terjadwal', 'D
 
 export const PRIORITIES = ['Rendah', 'Sedang', 'Tinggi']
 
+// Soft pastel tones drawn from the gradient-orb palette
 export const STATUS_COLORS: Record<string, string> = {
-  Ide: 'bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300',
-  'Sedang Dikerjakan': 'bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300',
-  Tinjauan: 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900 dark:text-yellow-300',
-  Terjadwal: 'bg-purple-100 text-purple-700 dark:bg-purple-900 dark:text-purple-300',
-  Dipublikasikan: 'bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300',
+  Ide:                '[background-color:#f0efed] [color:#777169] dark:[background-color:#292524] dark:[color:#a8a29e]',
+  'Sedang Dikerjakan':'[background-color:#dceef8] [color:#1a6896] dark:[background-color:#0d2535] dark:[color:#7ec8e8]',
+  Tinjauan:           '[background-color:#fceee4] [color:#9a5420] dark:[background-color:#2a1a0e] dark:[color:#f4c5a8]',
+  Terjadwal:          '[background-color:#ede8f5] [color:#6244a0] dark:[background-color:#1e1630] dark:[color:#c8b8e0]',
+  Dipublikasikan:     '[background-color:#e4f5ec] [color:#16a34a] dark:[background-color:#0d2318] dark:[color:#4ade80]',
 }
 
 export const PRIORITY_COLORS: Record<string, string> = {
-  Rendah: 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400',
-  Sedang: 'bg-orange-100 text-orange-700 dark:bg-orange-900 dark:text-orange-300',
-  Tinggi: 'bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-300',
+  Rendah: '[background-color:#f0efed] [color:#777169] dark:[background-color:#292524] dark:[color:#a8a29e]',
+  Sedang: '[background-color:#fceee4] [color:#9a5420] dark:[background-color:#2a1a0e] dark:[color:#f4c5a8]',
+  Tinggi: '[background-color:#fde8e8] [color:#dc2626] dark:[background-color:#2a0e0e] dark:[color:#f87171]',
 }

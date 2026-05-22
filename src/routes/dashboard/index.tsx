@@ -9,7 +9,6 @@ import {
 } from '@tanstack/react-table'
 import { useState } from 'react'
 import { Plus, ArrowUpDown, ExternalLink } from 'lucide-react'
-import { Button } from '../../components/ui/button'
 import { FilterBar, type Filters } from '../../components/FilterBar'
 import { ContentDrawer, type ContentItemFormData } from '../../components/ContentDrawer'
 import { STATUS_COLORS, PRIORITY_COLORS } from '../../lib/constants'
@@ -28,8 +27,8 @@ function rowBg(item: ContentItem): string {
   if (item.status === 'Dipublikasikan') return ''
   const now = startOfDay(new Date())
   const pub = startOfDay(new Date(item.publishDate))
-  if (isBefore(pub, now)) return 'bg-red-50 dark:bg-red-950/30'
-  if (isBefore(pub, addDays(now, 3))) return 'bg-yellow-50 dark:bg-yellow-950/30'
+  if (isBefore(pub, now)) return 'bg-[#fde8e8] dark:bg-[#2a0e0e]'
+  if (isBefore(pub, addDays(now, 3))) return 'bg-[#fef9ec] dark:bg-[#231a07]'
   return ''
 }
 
@@ -76,12 +75,10 @@ function TableView() {
   const columns: ColumnDef<ContentItem>[] = [
     {
       accessorKey: 'publishDate',
-      header: ({ column }) => (
-        <SortBtn label="Tanggal" onClick={() => column.toggleSorting()} />
-      ),
+      header: ({ column }) => <SortBtn label="Tanggal" onClick={() => column.toggleSorting()} />,
       cell: ({ getValue }) => (
-        <span className="text-sm whitespace-nowrap">
-          {format(new Date(getValue() as string), 'MMM d, yyyy')}
+        <span className="text-[14px] text-body-text whitespace-nowrap tabular-nums">
+          {format(new Date(getValue() as string), 'dd MMM yyyy')}
         </span>
       ),
     },
@@ -91,7 +88,10 @@ function TableView() {
       cell: ({ getValue }) => (
         <div className="flex flex-wrap gap-1">
           {(getValue() as string[]).map((p) => (
-            <span key={p} className="px-1.5 py-0.5 bg-muted text-muted-foreground rounded text-xs">
+            <span
+              key={p}
+              className="px-2 py-0.5 bg-surface-strong text-ink text-[11px] font-semibold uppercase tracking-[0.6px] rounded-full"
+            >
               {p}
             </span>
           ))}
@@ -103,26 +103,32 @@ function TableView() {
       accessorKey: 'title',
       header: ({ column }) => <SortBtn label="Judul / Ide" onClick={() => column.toggleSorting()} />,
       cell: ({ getValue }) => (
-        <span className="text-sm font-medium line-clamp-2">{getValue() as string}</span>
+        <span className="text-[14px] font-medium text-ink line-clamp-2 leading-snug">
+          {getValue() as string}
+        </span>
       ),
     },
     {
       accessorKey: 'format',
-      header: 'Format', // same in ID
-      cell: ({ getValue }) => <span className="text-sm">{getValue() as string}</span>,
+      header: 'Format',
+      cell: ({ getValue }) => (
+        <span className="text-[14px] text-body-text">{getValue() as string}</span>
+      ),
     },
     {
       accessorKey: 'contentPillar',
       header: 'Pilar',
-      cell: ({ getValue }) => <span className="text-sm">{getValue() as string}</span>,
+      cell: ({ getValue }) => (
+        <span className="text-[14px] text-body-text">{getValue() as string}</span>
+      ),
     },
     {
       accessorKey: 'status',
-      header: ({ column }) => <SortBtn label="Status" onClick={() => column.toggleSorting()} />, // same in ID
+      header: ({ column }) => <SortBtn label="Status" onClick={() => column.toggleSorting()} />,
       cell: ({ getValue }) => {
         const v = getValue() as string
         return (
-          <span className={`inline-flex px-2 py-0.5 rounded-full text-xs font-medium ${STATUS_COLORS[v] ?? ''}`}>
+          <span className={`inline-flex px-2.5 py-0.5 rounded-full text-[11px] font-semibold uppercase tracking-[0.6px] ${STATUS_COLORS[v] ?? ''}`}>
             {v}
           </span>
         )
@@ -134,7 +140,7 @@ function TableView() {
       cell: ({ getValue }) => {
         const v = getValue() as string
         return (
-          <span className={`inline-flex px-2 py-0.5 rounded-full text-xs font-medium ${PRIORITY_COLORS[v] ?? ''}`}>
+          <span className={`inline-flex px-2.5 py-0.5 rounded-full text-[11px] font-semibold uppercase tracking-[0.6px] ${PRIORITY_COLORS[v] ?? ''}`}>
             {v}
           </span>
         )
@@ -146,7 +152,13 @@ function TableView() {
       cell: ({ getValue }) => {
         const v = getValue() as string
         return v ? (
-          <a href={v} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline inline-flex items-center gap-1 text-xs">
+          <a
+            href={v}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1 text-[13px] font-medium text-ink-soft hover:text-ink underline underline-offset-2 transition-colors"
+            onClick={(e) => e.stopPropagation()}
+          >
             Tautan <ExternalLink className="w-3 h-3" />
           </a>
         ) : null
@@ -165,27 +177,29 @@ function TableView() {
   })
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-5">
+      {/* Toolbar */}
       <div className="flex items-center justify-between gap-4 flex-wrap">
         <FilterBar filters={filters} onChange={handleFilterChange} />
-        <Button
-          size="sm"
-          className="gap-1.5"
+        <button
           onClick={() => { setSelected(null); setDrawerOpen(true) }}
+          className="inline-flex items-center gap-2 h-10 px-5 rounded-full bg-ink-soft hover:bg-ink text-white text-[15px] font-medium transition-colors"
         >
-          <Plus className="w-4 h-4" /> Item Baru
-        </Button>
+          <Plus className="w-4 h-4" />
+          Item Baru
+        </button>
       </div>
 
-      <div className="rounded-lg border overflow-x-auto">
-        <table className="w-full text-sm">
+      {/* Table card */}
+      <div className="bg-surface-card border border-hairline rounded-xl shadow-[0_4px_16px_rgba(0,0,0,0.04)] overflow-x-auto">
+        <table className="w-full">
           <thead>
             {table.getHeaderGroups().map((hg) => (
-              <tr key={hg.id} className="border-b bg-muted/50">
+              <tr key={hg.id} className="border-b border-hairline">
                 {hg.headers.map((h) => (
                   <th
                     key={h.id}
-                    className="px-4 py-2.5 text-left text-xs font-medium text-muted-foreground uppercase tracking-wide whitespace-nowrap"
+                    className="px-5 py-3.5 text-left text-[11px] font-semibold uppercase tracking-[0.96px] text-muted-text whitespace-nowrap"
                   >
                     {flexRender(h.column.columnDef.header, h.getContext())}
                   </th>
@@ -196,19 +210,28 @@ function TableView() {
           <tbody>
             {table.getRowModel().rows.length === 0 ? (
               <tr>
-                <td colSpan={columns.length} className="px-4 py-12 text-center text-muted-foreground text-sm">
-                  Belum ada konten. Klik "Item Baru" untuk menambahkan.
+                <td
+                  colSpan={columns.length}
+                  className="px-5 py-16 text-center text-[14px] text-muted-text"
+                >
+                  Belum ada konten.{' '}
+                  <button
+                    className="underline underline-offset-2 hover:text-ink transition-colors"
+                    onClick={() => { setSelected(null); setDrawerOpen(true) }}
+                  >
+                    Tambah item baru
+                  </button>
                 </td>
               </tr>
             ) : (
               table.getRowModel().rows.map((row) => (
                 <tr
                   key={row.id}
-                  className={`border-b last:border-0 cursor-pointer hover:bg-muted/40 transition-colors ${rowBg(row.original)}`}
+                  className={`border-b border-hairline last:border-0 cursor-pointer hover:bg-canvas transition-colors ${rowBg(row.original)}`}
                   onClick={() => { setSelected(row.original); setDrawerOpen(true) }}
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <td key={cell.id} className="px-4 py-3 align-middle">
+                    <td key={cell.id} className="px-5 py-3.5 align-middle">
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </td>
                   ))}
@@ -219,13 +242,14 @@ function TableView() {
         </table>
       </div>
 
+      {/* Legend */}
       {items.length > 0 && (
-        <p className="text-xs text-muted-foreground">
+        <p className="text-[12px] text-muted-text">
           {items.length} item
           {' · '}
-          <span className="text-red-500 dark:text-red-400">Merah</span> = terlambat
+          <span className="text-[#dc2626]">Merah</span> = terlambat
           {' · '}
-          <span className="text-yellow-600 dark:text-yellow-400">Kuning</span> = jatuh tempo dalam 3 hari
+          <span className="text-[#9a5420]">Kuning</span> = jatuh tempo dalam 3 hari
         </p>
       )}
 
@@ -245,10 +269,10 @@ function SortBtn({ label, onClick }: { label: string; onClick: () => void }) {
     <button
       type="button"
       onClick={onClick}
-      className="flex items-center gap-1 hover:text-foreground transition-colors"
+      className="inline-flex items-center gap-1 hover:text-ink transition-colors"
     >
       {label}
-      <ArrowUpDown className="w-3 h-3" />
+      <ArrowUpDown className="w-3 h-3 opacity-50" />
     </button>
   )
 }

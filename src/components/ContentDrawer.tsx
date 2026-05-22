@@ -1,8 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetFooter } from './ui/sheet'
-import { Button } from './ui/button'
 import { Input } from './ui/input'
-import { Label } from './ui/label'
 import { Textarea } from './ui/textarea'
 import {
   Select,
@@ -116,22 +114,25 @@ export function ContentDrawer({ open, onClose, item, onSave, onDelete }: Props) 
 
   return (
     <Sheet open={open} onOpenChange={(v) => !v && onClose()}>
-      <SheetContent className="w-full sm:max-w-lg overflow-y-auto flex flex-col gap-0 p-0">
-        <SheetHeader className="px-6 py-4 border-b">
-          <SheetTitle>{item ? 'Edit item konten' : 'Item konten baru'}</SheetTitle>
+      <SheetContent className="w-full sm:max-w-lg flex flex-col gap-0 p-0 bg-surface-card border-l border-hairline">
+        {/* Header */}
+        <SheetHeader className="px-6 py-5 border-b border-hairline">
+          <SheetTitle className="font-display text-[22px] font-light tracking-[-0.22px]">
+            {item ? 'Edit item konten' : 'Item konten baru'}
+          </SheetTitle>
         </SheetHeader>
 
-        <div className="flex-1 overflow-y-auto px-6 py-4 space-y-4">
-          {/* Publish Date */}
+        {/* Body */}
+        <div className="flex-1 overflow-y-auto px-6 py-5 space-y-5">
           <Field label="Tanggal Publikasi *">
             <Input
               type="date"
               value={form.publishDate}
               onChange={(e) => set('publishDate', e.target.value)}
+              className="h-11 rounded-md border-hairline-strong bg-canvas text-[15px] px-4"
             />
           </Field>
 
-          {/* Platform multi-select */}
           <Field label="Platform *">
             <div className="flex flex-wrap gap-2">
               {PLATFORMS.map((p) => (
@@ -139,10 +140,10 @@ export function ContentDrawer({ open, onClose, item, onSave, onDelete }: Props) 
                   key={p}
                   type="button"
                   onClick={() => togglePlatform(p)}
-                  className={`px-2.5 py-1 rounded-full text-xs font-medium border transition-colors ${
+                  className={`px-3 py-1 rounded-full text-[12px] font-semibold uppercase tracking-[0.6px] border transition-colors ${
                     form.platforms.includes(p)
-                      ? 'bg-primary text-primary-foreground border-primary'
-                      : 'border-border text-muted-foreground hover:border-foreground'
+                      ? 'bg-ink-soft text-white border-ink-soft'
+                      : 'border-hairline-strong text-muted-text hover:border-ink-soft hover:text-ink bg-transparent'
                   }`}
                 >
                   {p}
@@ -151,18 +152,17 @@ export function ContentDrawer({ open, onClose, item, onSave, onDelete }: Props) 
             </div>
           </Field>
 
-          {/* Title */}
           <Field label="Judul / Ide *">
             <Input
               placeholder="Judul atau konsep singkat"
               value={form.title}
               onChange={(e) => set('title', e.target.value)}
+              className="h-11 rounded-md border-hairline-strong bg-canvas text-[15px] px-4"
             />
           </Field>
 
-          {/* Format */}
           <Field label="Format *">
-            <SimpleSelect
+            <StyledSelect
               value={form.format}
               onChange={(v) => set('format', v)}
               options={FORMATS}
@@ -170,9 +170,8 @@ export function ContentDrawer({ open, onClose, item, onSave, onDelete }: Props) 
             />
           </Field>
 
-          {/* Content Pillar */}
           <Field label="Pilar Konten *">
-            <SimpleSelect
+            <StyledSelect
               value={form.contentPillar}
               onChange={(v) => set('contentPillar', v)}
               options={CONTENT_PILLARS}
@@ -180,19 +179,18 @@ export function ContentDrawer({ open, onClose, item, onSave, onDelete }: Props) 
             />
           </Field>
 
-          {/* Caption Draft */}
           <Field label="Draf Caption">
             <Textarea
               placeholder="Tulis draf caption..."
               value={form.captionDraft}
               onChange={(e) => set('captionDraft', e.target.value)}
               rows={3}
+              className="rounded-md border-hairline-strong bg-canvas text-[15px] px-4 py-3 resize-none"
             />
           </Field>
 
-          {/* CTA */}
           <Field label="CTA">
-            <SimpleSelect
+            <StyledSelect
               value={form.cta}
               onChange={(v) => set('cta', v)}
               options={CTAS}
@@ -200,20 +198,19 @@ export function ContentDrawer({ open, onClose, item, onSave, onDelete }: Props) 
             />
           </Field>
 
-          {/* Asset Link */}
           <Field label="Tautan Aset">
             <Input
               type="url"
               placeholder="https://drive.google.com/..."
               value={form.assetLink}
               onChange={(e) => set('assetLink', e.target.value)}
+              className="h-11 rounded-md border-hairline-strong bg-canvas text-[15px] px-4"
             />
           </Field>
 
-          {/* Status & Priority */}
           <div className="grid grid-cols-2 gap-4">
             <Field label="Status">
-              <SimpleSelect
+              <StyledSelect
                 value={form.status}
                 onChange={(v) => set('status', v)}
                 options={STATUSES}
@@ -221,7 +218,7 @@ export function ContentDrawer({ open, onClose, item, onSave, onDelete }: Props) 
               />
             </Field>
             <Field label="Prioritas">
-              <SimpleSelect
+              <StyledSelect
                 value={form.priority}
                 onChange={(v) => set('priority', v)}
                 options={PRIORITIES}
@@ -231,26 +228,33 @@ export function ContentDrawer({ open, onClose, item, onSave, onDelete }: Props) 
           </div>
         </div>
 
-        <SheetFooter className="px-6 py-4 border-t flex items-center justify-between gap-2">
+        {/* Footer */}
+        <SheetFooter className="px-6 py-4 border-t border-hairline flex items-center justify-between gap-3">
           <div>
             {item && onDelete && (
-              <Button
-                variant="destructive"
-                size="sm"
+              <button
                 onClick={handleDelete}
                 disabled={deleting}
+                className="h-9 px-4 rounded-full border border-[#dc2626] text-[#dc2626] hover:bg-[#dc2626] hover:text-white text-[14px] font-medium transition-colors disabled:opacity-50"
               >
                 {confirmDelete ? (deleting ? 'Menghapus...' : 'Konfirmasi hapus') : 'Hapus'}
-              </Button>
+              </button>
             )}
           </div>
-          <div className="flex gap-2">
-            <Button variant="outline" onClick={onClose}>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={onClose}
+              className="h-9 px-4 rounded-full border border-hairline-strong text-ink text-[14px] font-medium hover:bg-canvas transition-colors"
+            >
               Batal
-            </Button>
-            <Button onClick={handleSave} disabled={saving}>
+            </button>
+            <button
+              onClick={handleSave}
+              disabled={saving}
+              className="h-9 px-5 rounded-full bg-ink-soft hover:bg-ink text-white text-[14px] font-medium transition-colors disabled:opacity-50"
+            >
               {saving ? 'Menyimpan...' : item ? 'Simpan' : 'Buat'}
-            </Button>
+            </button>
           </div>
         </SheetFooter>
       </SheetContent>
@@ -261,13 +265,13 @@ export function ContentDrawer({ open, onClose, item, onSave, onDelete }: Props) 
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div className="space-y-1.5">
-      <Label className="text-sm font-medium">{label}</Label>
+      <label className="text-caption-upper text-muted-text block">{label}</label>
       {children}
     </div>
   )
 }
 
-function SimpleSelect({
+function StyledSelect({
   value,
   onChange,
   options,
@@ -280,12 +284,12 @@ function SimpleSelect({
 }) {
   return (
     <Select value={value} onValueChange={onChange}>
-      <SelectTrigger>
+      <SelectTrigger className="h-11 rounded-md border-hairline-strong bg-canvas text-[15px] px-4">
         <SelectValue placeholder={placeholder} />
       </SelectTrigger>
-      <SelectContent>
+      <SelectContent className="rounded-xl border-hairline shadow-[0_4px_16px_rgba(0,0,0,0.08)]">
         {options.map((o) => (
-          <SelectItem key={o} value={o}>
+          <SelectItem key={o} value={o} className="text-[14px]">
             {o}
           </SelectItem>
         ))}

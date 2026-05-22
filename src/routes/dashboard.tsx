@@ -1,7 +1,6 @@
 import { createFileRoute, redirect, Link, Outlet, useRouter } from '@tanstack/react-router'
-import { Moon, Sun, LogOut, LayoutList, CalendarDays } from 'lucide-react'
+import { Moon, Sun, LogOut } from 'lucide-react'
 import { useEffect, useState } from 'react'
-import { Button } from '../components/ui/button'
 import { getAuthFn, logoutFn } from '../functions/auth'
 
 export const Route = createFileRoute('/dashboard')({
@@ -34,40 +33,55 @@ function DashboardLayout() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <header className="border-b bg-background sticky top-0 z-10">
-        <div className="max-w-screen-xl mx-auto px-4 h-14 flex items-center justify-between">
-          <div className="flex items-center gap-6">
-            <span className="font-semibold text-base tracking-tight">Perencana Konten</span>
+    <div className="min-h-screen flex flex-col bg-canvas">
+      {/* Top nav — 64px, canvas bg, hairline bottom */}
+      <header className="sticky top-0 z-10 bg-canvas border-b border-hairline">
+        <div className="max-w-[1200px] mx-auto px-6 h-16 flex items-center justify-between">
+
+          {/* Brand + nav */}
+          <div className="flex items-center gap-8">
+            <span className="font-display text-[22px] font-light leading-none tracking-[-0.22px] text-ink">
+              Perencana Konten
+            </span>
+
             <nav className="flex items-center gap-1">
               <Link
                 to="/dashboard"
                 activeOptions={{ exact: true }}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted transition-colors [&.active]:text-foreground [&.active]:bg-muted"
+                className="px-3 py-1.5 text-[15px] font-medium text-muted-text hover:text-ink transition-colors [&.active]:text-ink"
               >
-                <LayoutList className="w-4 h-4" />
                 Tabel
               </Link>
               <Link
                 to="/dashboard/calendar"
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted transition-colors [&.active]:text-foreground [&.active]:bg-muted"
+                className="px-3 py-1.5 text-[15px] font-medium text-muted-text hover:text-ink transition-colors [&.active]:text-ink"
               >
-                <CalendarDays className="w-4 h-4" />
                 Kalender
               </Link>
             </nav>
           </div>
-          <div className="flex items-center gap-2">
-            <Button variant="ghost" size="icon" onClick={toggleTheme} aria-label="Ganti tema">
+
+          {/* Actions */}
+          <div className="flex items-center gap-1">
+            <button
+              onClick={toggleTheme}
+              aria-label="Ganti tema"
+              className="w-9 h-9 flex items-center justify-center rounded-full text-muted-text hover:text-ink hover:bg-surface-strong transition-colors"
+            >
               {dark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
-            </Button>
-            <Button variant="ghost" size="icon" onClick={handleLogout} aria-label="Keluar">
+            </button>
+            <button
+              onClick={handleLogout}
+              aria-label="Keluar"
+              className="w-9 h-9 flex items-center justify-center rounded-full text-muted-text hover:text-ink hover:bg-surface-strong transition-colors"
+            >
               <LogOut className="w-4 h-4" />
-            </Button>
+            </button>
           </div>
         </div>
       </header>
-      <main className="flex-1 max-w-screen-xl mx-auto w-full px-4 py-6">
+
+      <main className="flex-1 max-w-[1200px] mx-auto w-full px-6 py-8">
         <Outlet />
       </main>
     </div>

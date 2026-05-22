@@ -16,12 +16,13 @@ const localizer = dateFnsLocalizer({
   locales: { 'en-US': enUS },
 })
 
+// Status colors drawn from orb palette
 const STATUS_BG: Record<string, string> = {
-  Ide: '#94a3b8',
-  'Sedang Dikerjakan': '#3b82f6',
-  Tinjauan: '#eab308',
-  Terjadwal: '#a855f7',
-  Dipublikasikan: '#22c55e',
+  Ide:                '#c8c4bc',
+  'Sedang Dikerjakan':'#6aadcc',
+  Tinjauan:           '#e8b87c',
+  Terjadwal:          '#b8a0d0',
+  Dipublikasikan:     '#5fbe8a',
 }
 
 export const Route = createFileRoute('/dashboard/calendar')({
@@ -89,36 +90,47 @@ function CalendarView() {
   const events = toEvents(items)
 
   return (
-    <div className="space-y-4">
-      <div className="flex items-end justify-between">
-        <p className="text-sm text-muted-foreground">Klik tanggal untuk menambah konten, klik acara untuk mengedit.</p>
-        <div className="flex flex-wrap gap-2">
+    <div className="space-y-5">
+      {/* Header row */}
+      <div className="flex items-center justify-between flex-wrap gap-3">
+        <p className="text-[14px] text-muted-text">
+          Klik tanggal untuk menambah konten, klik acara untuk mengedit.
+        </p>
+        {/* Status legend */}
+        <div className="flex flex-wrap items-center gap-4">
           {Object.entries(STATUS_BG).map(([status, color]) => (
-            <span key={status} className="flex items-center gap-1.5 text-xs text-muted-foreground">
-              <span className="w-2.5 h-2.5 rounded-full inline-block" style={{ background: color }} />
+            <span key={status} className="flex items-center gap-1.5 text-[12px] text-muted-text font-medium">
+              <span
+                className="w-2 h-2 rounded-full flex-shrink-0"
+                style={{ backgroundColor: color }}
+              />
               {status}
             </span>
           ))}
         </div>
       </div>
 
-      <div className="rbc-wrapper rounded-lg border overflow-hidden bg-background">
+      {/* Calendar card */}
+      <div className="rbc-wrapper bg-surface-card border border-hairline rounded-xl shadow-[0_4px_16px_rgba(0,0,0,0.04)] overflow-hidden">
         <Calendar
           localizer={localizer}
           events={events}
           startAccessor="start"
           endAccessor="end"
-          style={{ height: 620 }}
+          style={{ height: 640 }}
           onSelectEvent={handleSelectEvent}
           onSelectSlot={handleSelectSlot}
           selectable
           eventPropGetter={(event) => ({
             style: {
-              backgroundColor: STATUS_BG[event.resource.status] ?? '#94a3b8',
+              backgroundColor: STATUS_BG[event.resource.status] ?? '#c8c4bc',
               border: 'none',
               borderRadius: '4px',
               fontSize: '0.75rem',
-              padding: '1px 6px',
+              padding: '2px 7px',
+              fontFamily: 'Inter, sans-serif',
+              fontWeight: 500,
+              color: '#0c0a09',
             },
           })}
         />
