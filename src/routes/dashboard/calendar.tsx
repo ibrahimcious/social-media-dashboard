@@ -17,11 +17,11 @@ const localizer = dateFnsLocalizer({
 })
 
 const STATUS_BG: Record<string, string> = {
-  Idea: '#94a3b8',
-  'In Progress': '#3b82f6',
-  Review: '#eab308',
-  Scheduled: '#a855f7',
-  Published: '#22c55e',
+  Ide: '#94a3b8',
+  'Sedang Dikerjakan': '#3b82f6',
+  Tinjauan: '#eab308',
+  Terjadwal: '#a855f7',
+  Dipublikasikan: '#22c55e',
 }
 
 export const Route = createFileRoute('/dashboard/calendar')({
@@ -91,7 +91,7 @@ function CalendarView() {
   return (
     <div className="space-y-4">
       <div className="flex items-end justify-between">
-        <p className="text-sm text-muted-foreground">Click a date to add content, click an event to edit.</p>
+        <p className="text-sm text-muted-foreground">Klik tanggal untuk menambah konten, klik acara untuk mengedit.</p>
         <div className="flex flex-wrap gap-2">
           {Object.entries(STATUS_BG).map(([status, color]) => (
             <span key={status} className="flex items-center gap-1.5 text-xs text-muted-foreground">

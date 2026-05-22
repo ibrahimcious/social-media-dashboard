@@ -28,7 +28,7 @@ function LoginPage() {
       await router.invalidate()
       router.navigate({ to: '/dashboard' })
     } else {
-      setError(result.error ?? 'Login failed')
+      setError(result.error ?? 'Kata sandi salah')
       setLoading(false)
     }
   }
@@ -37,12 +37,12 @@ function LoginPage() {
     <div className="min-h-screen flex items-center justify-center bg-background">
       <div className="w-full max-w-sm space-y-6">
         <div className="space-y-1 text-center">
-          <h1 className="text-2xl font-semibold tracking-tight">Content Planner</h1>
-          <p className="text-sm text-muted-foreground">Enter the team password to continue</p>
+          <h1 className="text-2xl font-semibold tracking-tight">Perencana Konten</h1>
+          <p className="text-sm text-muted-foreground">Masukkan kata sandi tim untuk melanjutkan</p>
         </div>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="password">Password</Label>
+            <Label htmlFor="password">Kata Sandi</Label>
             <Input
               id="password"
               type="password"
@@ -55,7 +55,7 @@ function LoginPage() {
           </div>
           {error && <p className="text-sm text-destructive">{error}</p>}
           <Button type="submit" className="w-full" disabled={loading}>
-            {loading ? 'Signing in…' : 'Sign in'}
+            {loading ? 'Masuk...' : 'Masuk'}
           </Button>
         </form>
       </div>

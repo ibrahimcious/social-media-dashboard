@@ -51,8 +51,8 @@ const EMPTY: ContentItemFormData = {
   captionDraft: '',
   cta: '',
   assetLink: '',
-  status: 'Idea',
-  priority: 'Medium',
+  status: 'Ide',
+  priority: 'Sedang',
 }
 
 export function ContentDrawer({ open, onClose, item, onSave, onDelete }: Props) {
@@ -118,12 +118,12 @@ export function ContentDrawer({ open, onClose, item, onSave, onDelete }: Props) 
     <Sheet open={open} onOpenChange={(v) => !v && onClose()}>
       <SheetContent className="w-full sm:max-w-lg overflow-y-auto flex flex-col gap-0 p-0">
         <SheetHeader className="px-6 py-4 border-b">
-          <SheetTitle>{item ? 'Edit content item' : 'New content item'}</SheetTitle>
+          <SheetTitle>{item ? 'Edit item konten' : 'Item konten baru'}</SheetTitle>
         </SheetHeader>
 
         <div className="flex-1 overflow-y-auto px-6 py-4 space-y-4">
           {/* Publish Date */}
-          <Field label="Publish Date *">
+          <Field label="Tanggal Publikasi *">
             <Input
               type="date"
               value={form.publishDate}
@@ -152,9 +152,9 @@ export function ContentDrawer({ open, onClose, item, onSave, onDelete }: Props) 
           </Field>
 
           {/* Title */}
-          <Field label="Title / Idea *">
+          <Field label="Judul / Ide *">
             <Input
-              placeholder="Working title or one-liner concept"
+              placeholder="Judul atau konsep singkat"
               value={form.title}
               onChange={(e) => set('title', e.target.value)}
             />
@@ -166,24 +166,24 @@ export function ContentDrawer({ open, onClose, item, onSave, onDelete }: Props) 
               value={form.format}
               onChange={(v) => set('format', v)}
               options={FORMATS}
-              placeholder="Select format"
+              placeholder="Pilih format"
             />
           </Field>
 
           {/* Content Pillar */}
-          <Field label="Content Pillar *">
+          <Field label="Pilar Konten *">
             <SimpleSelect
               value={form.contentPillar}
               onChange={(v) => set('contentPillar', v)}
               options={CONTENT_PILLARS}
-              placeholder="Select pillar"
+              placeholder="Pilih pilar"
             />
           </Field>
 
           {/* Caption Draft */}
-          <Field label="Caption Draft">
+          <Field label="Draf Caption">
             <Textarea
-              placeholder="Draft caption..."
+              placeholder="Tulis draf caption..."
               value={form.captionDraft}
               onChange={(e) => set('captionDraft', e.target.value)}
               rows={3}
@@ -196,12 +196,12 @@ export function ContentDrawer({ open, onClose, item, onSave, onDelete }: Props) 
               value={form.cta}
               onChange={(v) => set('cta', v)}
               options={CTAS}
-              placeholder="Select CTA"
+              placeholder="Pilih CTA"
             />
           </Field>
 
           {/* Asset Link */}
-          <Field label="Asset Link">
+          <Field label="Tautan Aset">
             <Input
               type="url"
               placeholder="https://drive.google.com/..."
@@ -220,12 +220,12 @@ export function ContentDrawer({ open, onClose, item, onSave, onDelete }: Props) 
                 placeholder="Status"
               />
             </Field>
-            <Field label="Priority">
+            <Field label="Prioritas">
               <SimpleSelect
                 value={form.priority}
                 onChange={(v) => set('priority', v)}
                 options={PRIORITIES}
-                placeholder="Priority"
+                placeholder="Prioritas"
               />
             </Field>
           </div>
@@ -240,16 +240,16 @@ export function ContentDrawer({ open, onClose, item, onSave, onDelete }: Props) 
                 onClick={handleDelete}
                 disabled={deleting}
               >
-                {confirmDelete ? (deleting ? 'Deleting…' : 'Confirm delete') : 'Delete'}
+                {confirmDelete ? (deleting ? 'Menghapus...' : 'Konfirmasi hapus') : 'Hapus'}
               </Button>
             )}
           </div>
           <div className="flex gap-2">
             <Button variant="outline" onClick={onClose}>
-              Cancel
+              Batal
             </Button>
             <Button onClick={handleSave} disabled={saving}>
-              {saving ? 'Saving…' : item ? 'Save changes' : 'Create'}
+              {saving ? 'Menyimpan...' : item ? 'Simpan' : 'Buat'}
             </Button>
           </div>
         </SheetFooter>

@@ -25,7 +25,7 @@ export const Route = createFileRoute('/dashboard/')({
 const ALL = '__all__'
 
 function rowBg(item: ContentItem): string {
-  if (item.status === 'Published') return ''
+  if (item.status === 'Dipublikasikan') return ''
   const now = startOfDay(new Date())
   const pub = startOfDay(new Date(item.publishDate))
   if (isBefore(pub, now)) return 'bg-red-50 dark:bg-red-950/30'
@@ -77,7 +77,7 @@ function TableView() {
     {
       accessorKey: 'publishDate',
       header: ({ column }) => (
-        <SortBtn label="Date" onClick={() => column.toggleSorting()} />
+        <SortBtn label="Tanggal" onClick={() => column.toggleSorting()} />
       ),
       cell: ({ getValue }) => (
         <span className="text-sm whitespace-nowrap">
@@ -101,24 +101,24 @@ function TableView() {
     },
     {
       accessorKey: 'title',
-      header: ({ column }) => <SortBtn label="Title / Idea" onClick={() => column.toggleSorting()} />,
+      header: ({ column }) => <SortBtn label="Judul / Ide" onClick={() => column.toggleSorting()} />,
       cell: ({ getValue }) => (
         <span className="text-sm font-medium line-clamp-2">{getValue() as string}</span>
       ),
     },
     {
       accessorKey: 'format',
-      header: 'Format',
+      header: 'Format', // same in ID
       cell: ({ getValue }) => <span className="text-sm">{getValue() as string}</span>,
     },
     {
       accessorKey: 'contentPillar',
-      header: 'Pillar',
+      header: 'Pilar',
       cell: ({ getValue }) => <span className="text-sm">{getValue() as string}</span>,
     },
     {
       accessorKey: 'status',
-      header: ({ column }) => <SortBtn label="Status" onClick={() => column.toggleSorting()} />,
+      header: ({ column }) => <SortBtn label="Status" onClick={() => column.toggleSorting()} />, // same in ID
       cell: ({ getValue }) => {
         const v = getValue() as string
         return (
@@ -130,7 +130,7 @@ function TableView() {
     },
     {
       accessorKey: 'priority',
-      header: 'Priority',
+      header: 'Prioritas',
       cell: ({ getValue }) => {
         const v = getValue() as string
         return (
@@ -142,12 +142,12 @@ function TableView() {
     },
     {
       accessorKey: 'assetLink',
-      header: 'Asset',
+      header: 'Aset',
       cell: ({ getValue }) => {
         const v = getValue() as string
         return v ? (
           <a href={v} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline inline-flex items-center gap-1 text-xs">
-            Link <ExternalLink className="w-3 h-3" />
+            Tautan <ExternalLink className="w-3 h-3" />
           </a>
         ) : null
       },
@@ -173,7 +173,7 @@ function TableView() {
           className="gap-1.5"
           onClick={() => { setSelected(null); setDrawerOpen(true) }}
         >
-          <Plus className="w-4 h-4" /> New item
+          <Plus className="w-4 h-4" /> Item Baru
         </Button>
       </div>
 
@@ -197,7 +197,7 @@ function TableView() {
             {table.getRowModel().rows.length === 0 ? (
               <tr>
                 <td colSpan={columns.length} className="px-4 py-12 text-center text-muted-foreground text-sm">
-                  No content items yet. Click "New item" to add one.
+                  Belum ada konten. Klik "Item Baru" untuk menambahkan.
                 </td>
               </tr>
             ) : (
@@ -221,11 +221,11 @@ function TableView() {
 
       {items.length > 0 && (
         <p className="text-xs text-muted-foreground">
-          {items.length} item{items.length !== 1 ? 's' : ''}
+          {items.length} item
           {' · '}
-          <span className="text-red-500 dark:text-red-400">Red</span> = overdue
+          <span className="text-red-500 dark:text-red-400">Merah</span> = terlambat
           {' · '}
-          <span className="text-yellow-600 dark:text-yellow-400">Yellow</span> = due within 3 days
+          <span className="text-yellow-600 dark:text-yellow-400">Kuning</span> = jatuh tempo dalam 3 hari
         </p>
       )}
 

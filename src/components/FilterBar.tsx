@@ -43,10 +43,10 @@ export function FilterBar({ filters, onChange }: Props) {
     <div className="flex flex-wrap items-center gap-2">
       <Select value={filters.platform} onValueChange={(v) => set('platform', v)}>
         <SelectTrigger className="w-40 h-8 text-sm">
-          <SelectValue placeholder="All platforms" />
+          <SelectValue placeholder="Semua platform" />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value={ALL}>All platforms</SelectItem>
+          <SelectItem value={ALL}>Semua platform</SelectItem>
           {PLATFORMS.map((p) => (
             <SelectItem key={p} value={p}>{p}</SelectItem>
           ))}
@@ -55,10 +55,10 @@ export function FilterBar({ filters, onChange }: Props) {
 
       <Select value={filters.status} onValueChange={(v) => set('status', v)}>
         <SelectTrigger className="w-36 h-8 text-sm">
-          <SelectValue placeholder="All statuses" />
+          <SelectValue placeholder="Semua status" />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value={ALL}>All statuses</SelectItem>
+          <SelectItem value={ALL}>Semua status</SelectItem>
           {STATUSES.map((s) => (
             <SelectItem key={s} value={s}>{s}</SelectItem>
           ))}
@@ -66,14 +66,14 @@ export function FilterBar({ filters, onChange }: Props) {
       </Select>
 
       <div className="flex items-center gap-1.5">
-        <span className="text-xs text-muted-foreground">From</span>
+        <span className="text-xs text-muted-foreground">Dari</span>
         <Input
           type="date"
           className="h-8 text-sm w-36"
           value={filters.dateFrom}
           onChange={(e) => set('dateFrom', e.target.value)}
         />
-        <span className="text-xs text-muted-foreground">To</span>
+        <span className="text-xs text-muted-foreground">Sampai</span>
         <Input
           type="date"
           className="h-8 text-sm w-36"
@@ -84,7 +84,7 @@ export function FilterBar({ filters, onChange }: Props) {
 
       {hasActive && (
         <Button variant="ghost" size="sm" className="h-8 text-xs gap-1" onClick={reset}>
-          <X className="w-3 h-3" /> Clear
+          <X className="w-3 h-3" /> Reset
         </Button>
       )}
     </div>

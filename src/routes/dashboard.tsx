@@ -38,7 +38,7 @@ function DashboardLayout() {
       <header className="border-b bg-background sticky top-0 z-10">
         <div className="max-w-screen-xl mx-auto px-4 h-14 flex items-center justify-between">
           <div className="flex items-center gap-6">
-            <span className="font-semibold text-base tracking-tight">Content Planner</span>
+            <span className="font-semibold text-base tracking-tight">Perencana Konten</span>
             <nav className="flex items-center gap-1">
               <Link
                 to="/dashboard"
@@ -46,22 +46,22 @@ function DashboardLayout() {
                 className="flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted transition-colors [&.active]:text-foreground [&.active]:bg-muted"
               >
                 <LayoutList className="w-4 h-4" />
-                Table
+                Tabel
               </Link>
               <Link
                 to="/dashboard/calendar"
                 className="flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted transition-colors [&.active]:text-foreground [&.active]:bg-muted"
               >
                 <CalendarDays className="w-4 h-4" />
-                Calendar
+                Kalender
               </Link>
             </nav>
           </div>
           <div className="flex items-center gap-2">
-            <Button variant="ghost" size="icon" onClick={toggleTheme} aria-label="Toggle theme">
+            <Button variant="ghost" size="icon" onClick={toggleTheme} aria-label="Ganti tema">
               {dark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
             </Button>
-            <Button variant="ghost" size="icon" onClick={handleLogout} aria-label="Log out">
+            <Button variant="ghost" size="icon" onClick={handleLogout} aria-label="Keluar">
               <LogOut className="w-4 h-4" />
             </Button>
           </div>
