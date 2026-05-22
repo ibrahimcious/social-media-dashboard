@@ -1,5 +1,7 @@
 import { createFileRoute, redirect, useRouter } from '@tanstack/react-router'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { format } from 'date-fns'
+import { id } from 'date-fns/locale/id'
 import { loginFn, getAuthFn } from '../functions/auth'
 import { Button } from '../components/ui/button'
 import { Input } from '../components/ui/input'
@@ -13,11 +15,21 @@ export const Route = createFileRoute('/login')({
   component: LoginPage,
 })
 
+function useClock() {
+  const [now, setNow] = useState(new Date())
+  useEffect(() => {
+    const timer = setInterval(() => setNow(new Date()), 1000)
+    return () => clearInterval(timer)
+  }, [])
+  return now
+}
+
 function LoginPage() {
   const router = useRouter()
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
+  const now = useClock()
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -33,6 +45,9 @@ function LoginPage() {
     }
   }
 
+  const dateStr = format(now, 'EEEE, d MMMM yyyy', { locale: id })
+  const timeStr = format(now, 'HH:mm:ss')
+
   return (
     <div className="relative min-h-screen flex items-center justify-center bg-canvas overflow-hidden">
       {/* Atmospheric orbs */}
@@ -43,7 +58,27 @@ function LoginPage() {
       <div className="relative z-10 w-full max-w-sm px-6">
         {/* Card */}
         <div className="bg-surface-card border border-hairline rounded-[16px] shadow-[0_4px_24px_rgba(0,0,0,0.06)] p-10">
-          <div className="space-y-2 text-center mb-8">
+
+          {/* Logo */}
+          <div className="flex justify-center mb-6">
+            <img
+              src="/BKAD_LOGO.png"
+              alt="BKAD"
+              className="h-12 w-auto object-contain"
+            />
+          </div>
+
+          {/* Live clock */}
+          <div className="text-center mb-8 space-y-0.5">
+            <p className="text-[28px] font-semibold text-ink tabular-nums tracking-tight leading-none">
+              {timeStr}
+            </p>
+            <p className="text-[13px] text-muted-text capitalize">{dateStr}</p>
+          </div>
+
+          <div className="border-t border-hairline mb-6" />
+
+          <div className="space-y-2 text-center mb-6">
             <h1 className="text-display-sm">Perencana Konten</h1>
             <p className="text-[14px] text-muted-text leading-relaxed">
               Masukkan kata sandi tim untuk melanjutkan
